@@ -1,43 +1,23 @@
 spring:
-  profiles:
-    active: service
-  output:
-    ansi:
-      enabled: always
-  banner:
-    location: classpath:banner/banner.txt
-  main:
-    banner-mode: console
-  application:
-    name: username
   datasource:
-    url: jdbc:h2:mem:testdb;
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: 
+      url: jdbc:h2:mem:testdb
+      driver-class-name: org.h2.Driver
+      username: sa
+      password: 
+  h2:
+    console:
+      path: /h2-console
+      enabled: false
   jpa:
+    hibernate:
+      ddl-auto: create-drop 
+    show-sql: false
     open-in-view: false
-    properties:
-      hibernate:
-        ddl-auto: create-drop
-      database-platform: org.hibernate.dialect.H2Dialect
 
-springdoc:
-  api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
-    path: /docs
+  profiles:
+    active: console, service
+  application:
+    name: library
+
 server:
-  port: 8000
-
-logging:
-  level:
-    root: info
-    org:
-      springframework: warn
-      boot: error
-      data:
-        redis: debug
-  pattern:
-    console: '%n %d{HH:mm:ss} | %highlight(%-5level) | %cyan(%logger{30}) | %msg'
+  port: ${SERVER_PORT:8000}

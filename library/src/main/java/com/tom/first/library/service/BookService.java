@@ -6,14 +6,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.tom.first.library.common.SystemUtils;
 import com.tom.first.library.dto.BookRequest;
 import com.tom.first.library.dto.BookRequest.AuthorRequest;
 import com.tom.first.library.dto.BookRequest.TitleRequest;
 import com.tom.first.library.dto.BookResponse;
 import com.tom.first.library.dto.BookResponse.BookUpdateResponse;
-import com.tom.first.library.exception.AlreadyExistsException;
-import com.tom.first.library.exception.NotFoundException;
 import com.tom.first.library.mapper.BookMapper;
 import com.tom.first.library.model.Book;
 import com.tom.first.library.repository.BookRepository;
@@ -23,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class BookService extends SystemUtils {
+public class BookService {
 
 	private final BookRepository repository;
 	private final BookMapper mapper;
@@ -31,20 +28,20 @@ public class BookService extends SystemUtils {
 	public List<BookResponse> findAll() {
 		List<Book> books = repository.findAll();
 		if (books.isEmpty()) {
-			throw new NotFoundException("No books found.");
+			throw new RuntimeException("No books found.");
 		}
 		return books.stream().map(mapper::fromBook).collect(Collectors.toList());
 	}
 
 	public BookResponse findByTitle(TitleRequest request) {
 		return repository.findByTitle(request.title()).map(mapper::fromBook).orElseThrow(
-				() -> new NotFoundException(String.format("No book was found with the Title: %s.", request.title())));
+				() -> new RuntimeException(String.format("No book was found with the Title: %s.", request.title())));
 	}
 
 	public List<BookResponse> findByAuthor(AuthorRequest request) {
 		List<Book> books = repository.findByAuthor(request.author());
 		if (books.isEmpty()) {
-			throw new NotFoundException(String.format("No books from the author %s was found.", request.author()));
+			throw new RuntimeException(String.format("No books from the author %s was found.", request.author()));
 		}
 		return books.stream().map(mapper::fromBook).collect(Collectors.toList());
 	}
@@ -52,7 +49,7 @@ public class BookService extends SystemUtils {
 	public List<BookResponse> findByRangeLaunchYear(LocalDate firstDate, LocalDate lastDate) {
 		List<Book> books = repository.findByLaunchYearBetween(firstDate, lastDate);
 		if (books.isEmpty()) {
-			throw new NotFoundException("No books found between the date range.");
+			throw new RuntimeException("No books found between the date range.");
 		}
 		return books.stream().map(mapper::fromBook).collect(Collectors.toList());
 	}
@@ -60,7 +57,7 @@ public class BookService extends SystemUtils {
 	@Transactional
 	public BookResponse createBook(BookRequest request) {
 		if(repository.existsByTitle(request.title())) {
-			throw new AlreadyExistsException
+			throw new RuntimeException
 			(String.format("A book with same title already exists %s", request.title()));
 		}
 		
@@ -71,9 +68,9 @@ public class BookService extends SystemUtils {
 	@Transactional
 	public BookUpdateResponse updateBook(TitleRequest title, BookRequest request) {
 		var book = repository.findByTitle(request.title()).orElseThrow(
-				() -> new NotFoundException
+				() -> new RuntimeException
 				(String.format("No book was found with the Title: %s.", request.title())));
-		mergeBook(book, request);
+		mapper.mergeBook(book, request);
 		repository.save(book);
 		return mapper.fromUpdateResponse(book);
 	}
@@ -81,7 +78,7 @@ public class BookService extends SystemUtils {
 	@Transactional
 	public void deleteBookByTitle(TitleRequest request) {
 		if(!repository.existsByTitle(request.title())) {
-			throw new NotFoundException
+			throw new RuntimeException
 			(String.format("No book was found with the Title: %s.", request.title()));
 		}
 		repository.deleteByTitle(request.title());

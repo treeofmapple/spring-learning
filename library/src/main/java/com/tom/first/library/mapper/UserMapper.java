@@ -1,14 +1,15 @@
 package com.tom.first.library.mapper;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.tom.first.library.dto.UserRequest;
 import com.tom.first.library.dto.UserResponse;
+import com.tom.first.library.dto.UserRequest.PasswordRequest;
 import com.tom.first.library.dto.UserResponse.UserBookItems;
 import com.tom.first.library.dto.UserResponse.UserUpdateResponse;
 import com.tom.first.library.model.User;
 
-@Service
+@Component
 public class UserMapper {
 
 	public User toUser(UserRequest request) {
@@ -41,4 +42,19 @@ public class UserMapper {
 				); 
 	}
 
+	public void mergeUser(User user, UserRequest request) {
+		user.setUsername(request.username());
+		user.setAge(request.age());
+		user.setEmail(request.email());
+		if (request.password() != null) {
+			user.setPassword(request.password());
+		}
+	}
+
+	public void mergePassword(User user, PasswordRequest request) {
+		if (request.password() != null) {
+			user.setPassword(request.password());
+		}
+	}
+	
 }

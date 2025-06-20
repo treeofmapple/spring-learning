@@ -24,5 +24,11 @@ public class UsernameMapper {
 
 		return new UsernameResponse(username.getId(), username.getName(), username.getPassword(), username.getEmail());
 	}
+	
+	public void mergeData(Username username, UsernameRequest request) {
+		username.setName(request.name());
+		username.setPassword(request.password());
+		username.setEmail(request.email());
+	}
 
 }

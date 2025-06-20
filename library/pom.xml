@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.3</version>
+		<version>3.5.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.tom.first</groupId>
 	<artifactId>library</artifactId>
 	<version>v1</version>
-	<name>Library</name>
+	<name>library</name>
 	<description>library</description>
 
 	<licenses>
@@ -33,7 +33,6 @@
 
 	<properties>
 		<java.version>21</java.version>
-		<spring.doc>2.8.3</spring.doc>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -48,12 +47,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>${spring.doc}</version>
-		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

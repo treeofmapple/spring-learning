@@ -5,15 +5,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.tom.first.library.common.SystemUtils;
 import com.tom.first.library.dto.UserRequest;
 import com.tom.first.library.dto.UserRequest.EmailRequest;
 import com.tom.first.library.dto.UserRequest.NameRequest;
 import com.tom.first.library.dto.UserRequest.PasswordRequest;
 import com.tom.first.library.dto.UserResponse;
 import com.tom.first.library.dto.UserResponse.UserUpdateResponse;
-import com.tom.first.library.exception.AlreadyExistsException;
-import com.tom.first.library.exception.NotFoundException;
 import com.tom.first.library.mapper.UserMapper;
 import com.tom.first.library.model.User;
 import com.tom.first.library.repository.UserRepository;
@@ -23,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class UserService extends SystemUtils {
+public class UserService  {
 
 	private final UserRepository repository;
 	private final UserMapper mapper;
@@ -31,7 +28,7 @@ public class UserService extends SystemUtils {
 	public List<UserResponse> findAll() {
 		List<User> users = repository.findAll();
 		if (users.isEmpty()) {
-			throw new NotFoundException(String.format("No users found."));
+			throw new RuntimeException(String.format("No users found."));
 		}
 		return users.stream().map(mapper::fromUser).collect(Collectors.toList());
 	}
@@ -39,7 +36,7 @@ public class UserService extends SystemUtils {
 	public List<UserResponse> findByUsername(NameRequest request) {
 		List<User> users = repository.findAllByUsername(request.username());
 		if (users.isEmpty()) {
-			throw new NotFoundException
+			throw new RuntimeException
 			(String.format("No user with username %s found.", request.username()));
 		}
 		return users.stream().map(mapper::fromUser).collect(Collectors.toList());
@@ -49,7 +46,7 @@ public class UserService extends SystemUtils {
 		var user = repository.findByEmail(request.email())
 				.map(mapper::fromUser)
 				.orElseThrow(
-				() -> new NotFoundException
+				() -> new RuntimeException
 				(String.format("No user found with the provided email: %s", request.email())));
 		return user;
 	}
@@ -57,7 +54,7 @@ public class UserService extends SystemUtils {
 	@Transactional
 	public UserResponse createUser(UserRequest request) {
 		if (repository.existsByEmail(request.email())) {
-			throw new AlreadyExistsException
+			throw new RuntimeException
 			(String.format("User with same name already exists %s", request.email()));
 		}
 		var user = repository.save(mapper.toUser(request));
@@ -67,8 +64,8 @@ public class UserService extends SystemUtils {
 	@Transactional
 	public UserUpdateResponse updateUser(EmailRequest mail, UserRequest request) {
 		var user = repository.findByEmail(mail.email()).orElseThrow(
-				() -> new NotFoundException(String.format("No user found with the provided name: %s", request.username())));
-		mergeUser(user, request);
+				() -> new RuntimeException(String.format("No user found with the provided name: %s", request.username())));
+		mapper.mergeUser(user, request);
 		repository.save(user);
 		return mapper.fromUpdateResponse(user);
 	}
@@ -76,15 +73,15 @@ public class UserService extends SystemUtils {
 	@Transactional
 	public void passwordUpdate(EmailRequest mail, PasswordRequest request) {
 		var user = repository.findByEmail(mail.email()).orElseThrow(
-				() -> new NotFoundException(String.format("No user found with the provided email: %s", mail.email())));
-		mergePassword(user, request);
+				() -> new RuntimeException(String.format("No user found with the provided email: %s", mail.email())));
+		mapper.mergePassword(user, request);
 		repository.save(user);
 	}
 
 	@Transactional
 	public void deleteUserByEmail(EmailRequest request) {
 		if (!repository.existsByEmail(request.email())) {
-			throw new NotFoundException(String.format("No user found with the provided name: %s", request));
+			throw new RuntimeException(String.format("No user found with the provided name: %s", request));
 		}
 		repository.deleteByEmail(request.email());
 	}

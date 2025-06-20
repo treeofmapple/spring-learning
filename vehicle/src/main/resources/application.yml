@@ -20,6 +20,4 @@ spring:
     name: vehicle
 
 server:
-  port: 8000 
-  servlet:
-    context-path: /api
+  port: ${SERVER_PORT:8000} 

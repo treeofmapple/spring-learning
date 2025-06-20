@@ -1,12 +1,13 @@
 package com.tom.first.establishment.mapper;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.tom.first.establishment.dto.EstablishmentRequest;
 import com.tom.first.establishment.dto.EstablishmentResponse;
+import com.tom.first.establishment.dto.EstablishmentUpdate;
 import com.tom.first.establishment.model.Establishment;
 
-@Service
+@Component
 public class EstablishmentMapper {
 
 	public Establishment toEstablishment(EstablishmentRequest request) {
@@ -34,6 +35,15 @@ public class EstablishmentMapper {
 				request.getVacanciesMotorcycles(),
 				request.getVacanciesCars()
 				);
+	}
+	
+	public void mergeEstablishment(Establishment place, EstablishmentUpdate request) {
+		place.setName(request.name());
+		place.setCnpj(request.cnpj());
+		place.setAddress(request.address());
+		place.setTelephone(request.phone());
+		place.setVacanciesMotorcycles(request.motorcycleSpotCount());
+		place.setVacanciesCars(request.carSpotCount());
 	}
 	
 }

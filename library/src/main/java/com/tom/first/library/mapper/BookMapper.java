@@ -1,17 +1,13 @@
 package com.tom.first.library.mapper;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.tom.first.library.dto.BookRequest;
 import com.tom.first.library.dto.BookResponse;
 import com.tom.first.library.dto.BookResponse.BookUpdateResponse;
-import com.tom.first.library.dto.ItemResponse;
-import com.tom.first.library.dto.ItemResponse.ItemBookResponse;
 import com.tom.first.library.model.Book;
-import com.tom.first.library.model.BookItem;
-import com.tom.first.library.model.User;
 
-@Service
+@Component
 public class BookMapper {
 
 	public Book toBooks(BookRequest request) {
@@ -48,34 +44,13 @@ public class BookMapper {
 				book.getLaunchYear()
 				);
 	}
-
-	public BookItem toBookItem(Book book, User user) {
-		if (book == null || user == null) {
-			return null;
-		}
-		return BookItem.builder()
-				.book(book)
-				.user(user)
-				.build();
-	}
-
-	public ItemResponse fromBookItem(BookItem item) {
-		return new ItemResponse(
-				new ItemResponse.BookDTO(item.getBook()), 
-				new ItemResponse.UserDTO(item.getUser()), 
-				item.getStatus(), 
-				item.getRentStart(),
-				item.getRentEnd()
-				);
-	}
-
-	public ItemBookResponse fromBookItemUser(BookItem item) {
-		return new ItemBookResponse(
-				new ItemResponse.BookDTO(item.getBook()), 
-				new ItemResponse.UserDTO(item.getUser()),
-				item.getStatus()
-				);
-	}
-
 	
+	public void mergeBook(Book book, BookRequest request) {
+		book.setTitle(request.title());
+		book.setAuthor(request.author());
+		book.setQuantity(request.quantity());
+		book.setPrice(request.price());
+		book.setLaunchYear(request.launchYear());
+	}
+
 }

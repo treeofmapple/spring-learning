@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.tom.first.vehicle.common.EntityUpdater;
 import com.tom.first.vehicle.mapper.VehicleMapper;
 import com.tom.first.vehicle.model.Vehicle;
 import com.tom.first.vehicle.repository.VehicleRepository;
@@ -22,7 +21,6 @@ public class VehicleService {
 
 	private final VehicleRepository repository;
 	private final VehicleMapper mapper;
-	private final EntityUpdater system;
 
 	public List<VehicleResponse> findAll() {
 		List<Vehicle> vehicles = repository.findAll();
@@ -59,7 +57,7 @@ public class VehicleService {
 					return new RuntimeException(String.format("Vehicle with plate '%s' was not found.", plate));
 				});
 
-		system.mergeVehicle(vehicle, request);
+		mapper.mergeVehicle(vehicle, request);
 		repository.save(vehicle);
 		return mapper.fromVehicle(vehicle);
 	}

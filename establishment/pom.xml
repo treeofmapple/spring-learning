@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.4</version>
+		<version>3.5.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.tom.first</groupId>
@@ -13,19 +13,24 @@
 	<version>v1</version>
 	<name>establishment</name>
 	<description>establishment</description>
-	<url/>
+	
 	<licenses>
-		<license/>
+		<license>
+			<name>BSD 2-Clause License</name>
+			<url>https://opensource.org/license/bsd-2-clause</url>
+			<distribution>repo</distribution>
+		</license>
 	</licenses>
+
 	<developers>
-		<developer/>
+		<developer>
+			<name>Samuel</name>
+			<url>https://github.com/treeofmapple</url>
+			<organization>Comical Ferret</organization>
+			<organizationUrl>https://github.com/Pato-Incomum</organizationUrl>
+		</developer>
 	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+	
 	<properties>
 		<java.version>21</java.version>
 	</properties>
