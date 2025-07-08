@@ -2,10 +2,10 @@ package com.tom.management.mapper;
 
 import org.springframework.stereotype.Service;
 
-import br.gestao.espaco.model.Auditoria;
-import br.gestao.espaco.model.Usuario;
-import br.gestao.espaco.request.AuditoriaRequest;
-import br.gestao.espaco.request.AuditoriaResponse;
+import com.tom.management.model.Auditoria;
+import com.tom.management.model.Usuario;
+import com.tom.management.request.AuditoriaRequest;
+import com.tom.management.request.AuditoriaResponse;
 
 @Service
 public class AuditoriaMapper {

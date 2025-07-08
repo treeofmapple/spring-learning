@@ -1,12 +1,12 @@
-package br.gestao.espaco.repository;
+package com.tom.management.repository;
 
 import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.gestao.espaco.model.Auditoria;
-import br.gestao.espaco.model.Usuario;
+import com.tom.management.model.Auditoria;
+import com.tom.management.model.Usuario;
 
 @Repository
 public interface AuditoriaRepository extends JpaRepository<Auditoria, Long> {

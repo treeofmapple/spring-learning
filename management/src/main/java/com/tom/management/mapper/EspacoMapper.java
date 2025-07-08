@@ -4,13 +4,13 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import br.gestao.espaco.exception.NotFoundException;
-import br.gestao.espaco.model.Equipamento;
-import br.gestao.espaco.model.EspacoFisico;
-import br.gestao.espaco.repository.EquipamentoRepository;
-import br.gestao.espaco.request.EspacoRequest;
-import br.gestao.espaco.request.EspacoResponse;
-import br.gestao.espaco.request.dto.EspacoRequestDTO;
+import com.tom.management.model.Equipamento;
+import com.tom.management.model.EspacoFisico;
+import com.tom.management.repository.EquipamentoRepository;
+import com.tom.management.request.EspacoRequest;
+import com.tom.management.request.EspacoResponse;
+import com.tom.management.request.dto.EspacoRequestDTO;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -33,7 +33,7 @@ public class EspacoMapper {
 		}
 
 		if (!repository.existsByNomeIn(equipamentosRequest)) {
-			throw new NotFoundException(
+			throw new RuntimeException(
 					String.format("Equipamento com o nome requisitado não existe: %s", equipamentosRequest));
 		}
 
@@ -50,7 +50,7 @@ public class EspacoMapper {
 
 		Set<String> equipamentosRequest = request.Equipamento();
 		if (equipamentosRequest.isEmpty() || !repository.existsByNomeIn(equipamentosRequest)) {
-			throw new NotFoundException(
+			throw new RuntimeException(
 					String.format("Equipamento com o nome requisitado não existe: %s", equipamentosRequest));
 		}
 

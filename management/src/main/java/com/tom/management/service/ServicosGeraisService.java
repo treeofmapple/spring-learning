@@ -5,22 +5,20 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import br.gestao.espaco.config.LogAuditoria;
-import br.gestao.espaco.exception.AlreadyExistsException;
-import br.gestao.espaco.exception.DuplicateException;
-import br.gestao.espaco.exception.NotFoundException;
-import br.gestao.espaco.mapper.ServicosMapper;
-import br.gestao.espaco.model.Avaliador;
-import br.gestao.espaco.model.Equipamento;
-import br.gestao.espaco.model.Feriado;
-import br.gestao.espaco.repository.AvaliadorRepository;
-import br.gestao.espaco.repository.EquipamentoRepository;
-import br.gestao.espaco.repository.FeriadoRepository;
-import br.gestao.espaco.request.AvaliadorResponse;
-import br.gestao.espaco.request.EquipamentoRequest;
-import br.gestao.espaco.request.EquipamentoResponse;
-import br.gestao.espaco.request.FeriadoRequest;
-import br.gestao.espaco.request.FeriadoResponse;
+import com.tom.management.config.LogAuditoria;
+import com.tom.management.mapper.ServicosMapper;
+import com.tom.management.model.Avaliador;
+import com.tom.management.model.Equipamento;
+import com.tom.management.model.Feriado;
+import com.tom.management.repository.AvaliadorRepository;
+import com.tom.management.repository.EquipamentoRepository;
+import com.tom.management.repository.FeriadoRepository;
+import com.tom.management.request.AvaliadorResponse;
+import com.tom.management.request.EquipamentoRequest;
+import com.tom.management.request.EquipamentoResponse;
+import com.tom.management.request.FeriadoRequest;
+import com.tom.management.request.FeriadoResponse;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,7 +36,7 @@ public class ServicosGeraisService {
 	public List<AvaliadorResponse> findAllAvaliador() {
 		List<Avaliador> avaliador = avaliadorRepository.findAll();
 		if (avaliador.isEmpty()) {
-			throw new NotFoundException(String.format("Nenhum avaliador foi encontrado"));
+			throw new RuntimeException(String.format("Nenhum avaliador foi encontrado"));
 		}
 		return avaliador.stream().map(mapper::fromAvaliador).collect(Collectors.toList());
 	}
@@ -47,7 +45,7 @@ public class ServicosGeraisService {
 	public List<FeriadoResponse> findAllFeriados() {
 		List<Feriado> feriado = feriadoRepository.findAll();
 		if (feriado.isEmpty()) {
-			throw new NotFoundException(String.format("Nenhum feriado foi encontrado"));
+			throw new RuntimeException(String.format("Nenhum feriado foi encontrado"));
 		}
 		return feriado.stream().map(mapper::fromFeriado).collect(Collectors.toList());
 	}
@@ -56,7 +54,7 @@ public class ServicosGeraisService {
 	public List<EquipamentoResponse> findAllEquipamentos() {
 		List<Equipamento> equipamento = equipamentoRepository.findAll();
 		if (equipamento.isEmpty()) {
-			throw new NotFoundException(String.format("Nenhum equipamento foi encontrado."));
+			throw new RuntimeException(String.format("Nenhum equipamento foi encontrado."));
 		}
 		return equipamento.stream().map(mapper::fromEquipamento).collect(Collectors.toList());
 	}
@@ -64,12 +62,12 @@ public class ServicosGeraisService {
 	@LogAuditoria(acao = "CREATE_FERIADO_DATA")
 	public Long createFeriadoData(FeriadoRequest request) {
 		if (feriadoRepository.existsByNomeAndData(request.Nome(), request.Data())) {
-			throw new DuplicateException(String.format("Feriado com nome e data semelhante ja existe:: %s, %s.",
+			throw new RuntimeException(String.format("Feriado com nome e data semelhante ja existe:: %s, %s.",
 					request.Nome(), request.Data()));
 		}
 
 		if (feriadoRepository.existsByNome(request.Nome())) {
-			throw new DuplicateException(String.format("Feriado com nome semelhante:: %s", request.Nome()));
+			throw new RuntimeException(String.format("Feriado com nome semelhante:: %s", request.Nome()));
 		}
 
 		var feriado = feriadoRepository.save(mapper.toFeriado(request));
@@ -79,7 +77,7 @@ public class ServicosGeraisService {
 	@LogAuditoria(acao = "CREATE_EQUIPAMENTO")
 	public Long createEquipamento(EquipamentoRequest request) {
 		if (equipamentoRepository.existsByNome(request.Nome())) {
-			throw new AlreadyExistsException(
+			throw new RuntimeException(
 					String.format("Equipamento com o mesmo nome ja existe:: %s.", request.Nome()));
 		}
 		var equipamento = equipamentoRepository.save(mapper.toEquipamento(request));
@@ -89,7 +87,7 @@ public class ServicosGeraisService {
 	@LogAuditoria(acao = "DELETE_EQUIPAMENTO")
 	public void deleteEquipamento(Long id) {
 		if (!equipamentoRepository.existsById(id)) {
-			throw new NotFoundException(String.format("Equipamento com ID:: %s, não foi encontrado.", id));
+			throw new RuntimeException(String.format("Equipamento com ID:: %s, não foi encontrado.", id));
 		}
 		equipamentoRepository.deleteById(id);
 	}
@@ -97,7 +95,7 @@ public class ServicosGeraisService {
 	@LogAuditoria(acao = "DELETE_FERIADO")
 	public void deleteFeriado(Long id) {
 		if (!feriadoRepository.existsById(id)) {
-			throw new NotFoundException(String.format("Feriado com ID:: %s, não foi encontrado.", id));
+			throw new RuntimeException(String.format("Feriado com ID:: %s, não foi encontrado.", id));
 		}
 		feriadoRepository.deleteById(id);
 	}

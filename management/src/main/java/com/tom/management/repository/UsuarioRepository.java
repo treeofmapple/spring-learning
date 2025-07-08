@@ -1,9 +1,9 @@
-package br.gestao.espaco.repository;
+package com.tom.management.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.gestao.espaco.model.Usuario;
+import com.tom.management.model.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {

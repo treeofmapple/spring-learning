@@ -1,4 +1,4 @@
-package br.gestao.espaco.config;
+package com.tom.management.config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

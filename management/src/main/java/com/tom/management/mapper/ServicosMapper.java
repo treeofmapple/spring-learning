@@ -2,14 +2,14 @@ package com.tom.management.mapper;
 
 import org.springframework.stereotype.Service;
 
-import br.gestao.espaco.model.Avaliador;
-import br.gestao.espaco.model.Equipamento;
-import br.gestao.espaco.model.Feriado;
-import br.gestao.espaco.request.AvaliadorResponse;
-import br.gestao.espaco.request.EquipamentoRequest;
-import br.gestao.espaco.request.EquipamentoResponse;
-import br.gestao.espaco.request.FeriadoRequest;
-import br.gestao.espaco.request.FeriadoResponse;
+import com.tom.management.model.Avaliador;
+import com.tom.management.model.Equipamento;
+import com.tom.management.model.Feriado;
+import com.tom.management.request.AvaliadorResponse;
+import com.tom.management.request.EquipamentoRequest;
+import com.tom.management.request.EquipamentoResponse;
+import com.tom.management.request.FeriadoRequest;
+import com.tom.management.request.FeriadoResponse;
 
 @Service
 public class ServicosMapper {

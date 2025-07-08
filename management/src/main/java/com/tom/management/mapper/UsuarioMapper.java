@@ -4,9 +4,9 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import br.gestao.espaco.model.Usuario;
-import br.gestao.espaco.request.UsuarioRequest;
-import br.gestao.espaco.request.UsuarioResponse;
+import com.tom.management.model.Usuario;
+import com.tom.management.request.UsuarioRequest;
+import com.tom.management.request.UsuarioResponse;
 
 @Service
 public class UsuarioMapper {

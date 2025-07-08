@@ -2,12 +2,12 @@ package com.tom.management.mapper;
 
 import org.springframework.stereotype.Service;
 
-import br.gestao.espaco.model.EspacoFisico;
-import br.gestao.espaco.model.Solicitacao;
-import br.gestao.espaco.model.Status;
-import br.gestao.espaco.model.Usuario;
-import br.gestao.espaco.request.SolicitacaoRequest;
-import br.gestao.espaco.request.SolicitacaoResponse;
+import com.tom.management.model.EspacoFisico;
+import com.tom.management.model.Solicitacao;
+import com.tom.management.model.Status;
+import com.tom.management.model.Usuario;
+import com.tom.management.request.SolicitacaoRequest;
+import com.tom.management.request.SolicitacaoResponse;
 
 @Service
 public class SolicitacaoMapper {

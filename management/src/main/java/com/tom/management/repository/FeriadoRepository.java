@@ -1,10 +1,10 @@
-package br.gestao.espaco.repository;
+package com.tom.management.repository;
 
 import java.time.LocalDate;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.gestao.espaco.model.Feriado;
+import com.tom.management.model.Feriado;
 
 public interface FeriadoRepository extends JpaRepository<Feriado, Long> {
 

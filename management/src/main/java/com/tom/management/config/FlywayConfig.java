@@ -1,4 +1,4 @@
-package br.gestao.espaco.config;
+package com.tom.management.config;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;

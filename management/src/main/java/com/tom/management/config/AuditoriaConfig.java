@@ -7,8 +7,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
-import br.gestao.espaco.model.Auditoria;
-import br.gestao.espaco.repository.AuditoriaRepository;
+import com.tom.management.model.Auditoria;
+import com.tom.management.repository.AuditoriaRepository;
+
 import lombok.RequiredArgsConstructor;
 
 @Aspect
